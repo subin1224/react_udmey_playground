@@ -6,12 +6,17 @@ function App() {
   const [userInfo, setUserInfo] = useState([]);
 
   const addUserInfo = (userName, userAge) => {
-    setUserInfo((prev) => [...prev, { name: userName, age: userAge }]);
+    setUserInfo((prev) => {
+      return [
+        ...prev,
+        { name: userName, age: userAge, id: Math.random().toString() },
+      ];
+    });
   };
 
   return (
     <div>
-      <AddUser userInfo={addUserInfo} />
+      <AddUser onAddUser={addUserInfo} />
       <UsersList userInfo={userInfo} />
     </div>
   );
