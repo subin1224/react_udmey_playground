@@ -5,6 +5,7 @@ import "./App.css";
 import DemoOutput from "./components/Demo/DemoOutput";
 
 function App() {
+  /*
   const [showParagraph, setShowParagraph] = useState(false);
   const [allowToggle, setAllowToggle] = useState(false);
 
@@ -29,6 +30,21 @@ function App() {
       <DemoOutput show={showParagraph} />
       <Button onClick={allowToggleHandler}>Allow Toggling</Button>
       <Button onClick={toggleParagraphHandler}>Toggle Paragraph!</Button>
+    </div>
+  );
+  */
+  const [listTitle, setListTitle] = useState("My List");
+
+  const changeTitleHandler = useCallback(() => {
+    setListTitle("New Title");
+  }, []);
+
+  const listItems = useMemo(() => [5, 3, 1, 10, 9], []);
+
+  return (
+    <div className="app">
+      <DemoList title={listTitle} items={listItems} />
+      <Button onClick={changeTitleHandler}>Change List Title</Button>
     </div>
   );
 }
