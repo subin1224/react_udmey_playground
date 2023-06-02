@@ -1,15 +1,14 @@
-import { Fragment, useState, useEffect, Component } from "react";
+import { Fragment, Component } from "react";
 
 import Users from "./Users";
 import classes from "./UserFinder.module.css";
-
-const DUMMY_USERS = [
-  { id: "u1", name: "Max" },
-  { id: "u2", name: "Manuel" },
-  { id: "u3", name: "Julie" },
-];
+import UsersContext from "../store/users-context";
+import ErrorBoundary from "./ErrorBoundary";
 
 class UserFinder extends Component {
+  // 정적 프로퍼티로 단 하나만 연결 가능. 두개 이상은 다른 방법 (다른 컴포넌트 래핑 등..)
+  static contextType = UsersContext;
+
   constructor() {
     super();
     this.state = {
@@ -23,7 +22,7 @@ class UserFinder extends Component {
     // 예시이자 가정..
     // Send http Request....
     this.setState({
-      filteredUsers: DUMMY_USERS,
+      filteredUsers: this.context.users,
     });
   }
 
@@ -32,7 +31,7 @@ class UserFinder extends Component {
     // 무한루프 발생 방지
     if (prevState.searchTerm !== this.state.searchTerm) {
       this.setState({
-        filteredUsers: DUMMY_USERS.filter((user) =>
+        filteredUsers: this.context.users.filter((user) =>
           user.name.includes(this.state.searchTerm)
         ),
       });
@@ -46,10 +45,16 @@ class UserFinder extends Component {
   render() {
     return (
       <Fragment>
+        {/* <UsersContext.Consumer>
+            // context 이용하기 (1)
+            // 함수형 및 클래스 컴포넌트에 사용 가능
+        </UsersContext.Consumer> */}
         <div className={classes.finder}>
           <input type="search" onChange={this.searchChangeHandler.bind(this)} />
         </div>
-        <Users users={this.state.filteredUsers} />
+        <ErrorBoundary>
+          <Users users={this.state.filteredUsers} />
+        </ErrorBoundary>
       </Fragment>
     );
   }

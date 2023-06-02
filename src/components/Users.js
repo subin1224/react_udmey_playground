@@ -19,6 +19,20 @@ class Users extends Component {
     };
   }
 
+  componentDidUpdate() {
+    // try {
+    //   // 실패할 수 있는 코드
+    //   someCodeWhichMightFail();
+    // } catch (err) {
+    //   // handle error
+    // }
+
+    if (this.props.users.length === 0) {
+      // 의도적으로 오류 생성
+      throw new Error("No users provided!"); // 콜스택 오류 -> 앱 중단
+    }
+  }
+
   toggleUsersHandler() {
     // this.state.showUsers = false // NOT!!
     // 해당 메서드 역시 항상 객체가 들어와야 하며 이 객체는 설정하려는 새로운 상태를 포함한다.
